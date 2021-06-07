@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <title>Payment</title>
+
+    <link rel="stylesheet" type="text/css"
+          href="http://localhost:7000/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css"/>
+
+</head>
+<body>
+
+
+<div class="container">
+
+    <h1 class="text-center">Application Microservice E-Commerce</h1>
+    <br/>
+    <h2 class="text-center">Payment</h2>
+
+    <div class="row">
+        <div class="col-md-4 mx-auto mt-5 text-center">
+
+            <p th:if="${paymentOk}">
+                Payment success
+            </p>
+
+            <p th:unless="${paymentOk}">
+                Payment fail
+            </p>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="http://localhost:7000/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

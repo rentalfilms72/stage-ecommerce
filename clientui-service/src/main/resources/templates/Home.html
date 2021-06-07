@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <title>Microservice E-Commerce</title>
+
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css"/>
+</head>
+<body>
+
+
+<div class="container">
+    <h1 class="text-center">Application Microservice E-Commerce</h1>
+
+    <div class="row">
+        <div th:each="product : ${productList}" class="col-md-2 my-1">
+            <a th:href="@{|/product-details/${product.productId}|}">
+                <img th:src="${product.image}" class="card-img-top" src=""/>
+                <p th:text="${product.title}"></p>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
