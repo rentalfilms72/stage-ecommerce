@@ -7,6 +7,8 @@ import it.stage.microservices.product.exception.ProductNotFoundException;
 import it.stage.microservices.product.payload.request.ProductListRequest;
 import it.stage.microservices.product.payload.request.ProductRequest;
 import it.stage.microservices.product.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import java.util.Optional;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ProductService {
+
+    Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ProductRepository productRepository;
@@ -59,15 +63,15 @@ public class ProductService {
     public List<Product> getAllProducts() throws ProductNotFoundException {
 
         List<Product> products = productRepository.findAll();
-
+        log.info("Get all product.........");
         if(products.isEmpty())
             throw new ProductNotFoundException("No product available for sale");
 
         int numberOfProduct = products.size();
 
         List<Product> limitList = new ArrayList<>();
-//        limitList = products.subList(0, applicationPropertiesConfig.getLimitOfProducts());
-        limitList = products.subList(0, numberOfProduct);
+        limitList = products.subList(0, applicationPropertiesConfig.getLimitOfProducts());
+//        limitList = products.subList(0, numberOfProduct);
 
         return limitList;
     }

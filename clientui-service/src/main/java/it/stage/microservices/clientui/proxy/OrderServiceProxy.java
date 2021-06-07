@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-/*@FeignClient(name = "ORDER-SERVICE", url = "localhost:7002/orders")
+// 1. Only feign
+/*@FeignClient(name = "order-service", url = "localhost:7002/")
 @RequestMapping("/order-service/orders")*/
 
-@FeignClient(name = "API-GATEWAY", contextId = "orderContextId")
-@RibbonClient(name = "ORDER-SERVICE")
+// 2. Only feign with ribbon
+/*@FeignClient(name = "order-service")
+@RibbonClient(name = "order-service")
+@RequestMapping("/order-service/orders")*/
+
+@FeignClient(name = "api-gateway", contextId = "orderContextId")
+@RibbonClient(name = "order-service")
 @RequestMapping("/order-service/orders")
 public interface OrderServiceProxy {
 

@@ -1,11 +1,16 @@
 package it.stage.microservices.payment.proxy;
 
 import it.stage.microservices.payment.bean.OrderBean;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 
-@FeignClient(name = "ORDER-SERVICE", url = "localhost:7002")
+/*@FeignClient(name = "order-service", url = "localhost:7002")
+@RequestMapping("/orders")*/
+
+@FeignClient(name = "order-service")
+@RibbonClient(name = "order-service")
 @RequestMapping("/orders")
 public interface OrderServiceProxy {
 

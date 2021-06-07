@@ -8,11 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// 1. Only feign
+/*@FeignClient(name = "product-service", url = "localhost:7001/products")
+@FeignClient(name = "product-service")*/
 
-//@FeignClient(name = "PRODUCT-SERVICE", url = "localhost:7001/products") 1
-//@FeignClient(name = "PRODUCT-SERVICE")2
-@FeignClient(name = "API-GATEWAY", contextId = "productContextId")
-@RibbonClient(name = "PRODUCT-SERVICE")
+// 2. Only feign with ribbon
+/*@FeignClient(name = "product-service")
+@FeignClient(name = "product-service")*/
+
+@FeignClient(name = "api-gateway", contextId = "productContextId")
+@RibbonClient(name = "product-service")
 @RequestMapping("/product-service/products")
 public interface ProductServiceProxy {
 

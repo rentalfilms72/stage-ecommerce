@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-/*@FeignClient(name = "PAYMENT-SERVICE", url = "localhost:7003/payments")
+// 1. Only feign
+/*@FeignClient(name = "payment-service", url = "localhost:7003/payments")
 @RequestMapping("/payment-service/payments")*/
 
-@FeignClient(name = "API-GATEWAY", contextId = "paymentContextId")
-@RibbonClient(name = "PAYMENT-SERVICE")
+// 2. Only feign with ribbon
+/*@FeignClient(name = "payment-service")
+@RequestMapping("/payment-service/payments")*/
+
+@FeignClient(name = "api-gateway", contextId = "paymentContextId")
+@RibbonClient(name = "payment-service")
 @RequestMapping("/payment-service/payments")
 public interface PaymentServiceProxy {
 

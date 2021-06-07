@@ -8,6 +8,8 @@ import it.stage.microservices.clientui.payload.request.PaymentRequest;
 import it.stage.microservices.clientui.proxy.OrderServiceProxy;
 import it.stage.microservices.clientui.proxy.PaymentServiceProxy;
 import it.stage.microservices.clientui.proxy.ProductServiceProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 public class ClientController {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private ProductServiceProxy productServiceProxy;
@@ -65,7 +69,9 @@ public class ClientController {
 
         model.addAttribute("productList", productBeanList);
 
-        return "home";
+        LOGGER.info("********* Product list empty");
+
+        return "Home";
     }
 
 

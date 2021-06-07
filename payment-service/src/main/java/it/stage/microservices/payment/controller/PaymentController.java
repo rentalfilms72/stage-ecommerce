@@ -5,7 +5,6 @@ import it.stage.microservices.payment.entity.Payment;
 import it.stage.microservices.payment.exception.PaymentExistException;
 import it.stage.microservices.payment.exception.PaymentImpossibleException;
 import it.stage.microservices.payment.payload.request.PaymentRequest;
-import it.stage.microservices.payment.proxy.OrderServiceProxy;
 import it.stage.microservices.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
