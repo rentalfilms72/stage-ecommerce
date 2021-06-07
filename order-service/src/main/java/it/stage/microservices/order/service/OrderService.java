@@ -1,9 +1,11 @@
 package it.stage.microservices.order.service;
 
+import it.stage.microservices.order.bean.ProductBean;
 import it.stage.microservices.order.entity.Order;
 import it.stage.microservices.order.exception.ImpossibleAddOrderException;
 import it.stage.microservices.order.exception.OrderNotFoundException;
 import it.stage.microservices.order.payload.request.OrderRequest;
+import it.stage.microservices.order.proxy.ProductServiceProxy;
 import it.stage.microservices.order.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +27,18 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
+    private ProductServiceProxy productServiceProxy;
+
+    @Autowired
     private KafkaTemplate<String, Order> kafkaTemplate;
 
     private static final String KAFKA_TOPIC = "mail-service";
 
 
     public Order insertOrder(OrderRequest orderRequest) throws ImpossibleAddOrderException {
+
+        // Control if the product exist
+        ProductBean productBean = productServiceProxy.getOneProduct(orderRequest.getProductId());
 
         Order newOrder = new Order();
         newOrder.setProductId(orderRequest.getProductId());

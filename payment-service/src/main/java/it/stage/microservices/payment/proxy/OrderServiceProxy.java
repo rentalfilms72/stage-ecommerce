@@ -5,7 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 
-@FeignClient(name = "ORDER-SERVICE", url = "localhost:7002/orders")
+@FeignClient(name = "ORDER-SERVICE", url = "localhost:7002")
+@RequestMapping("/orders")
 public interface OrderServiceProxy {
 
     @GetMapping(value = "/get-order/{orderId}")

@@ -1,6 +1,7 @@
 package it.stage.microservices.product.controller;
 
 import it.stage.microservices.product.entity.Product;
+import it.stage.microservices.product.exception.ExceptionHandling;
 import it.stage.microservices.product.exception.InsertProductImpossibleException;
 import it.stage.microservices.product.exception.ProductNotFoundException;
 import it.stage.microservices.product.payload.request.ProductListRequest;
@@ -15,12 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController {
+public class ProductController extends ExceptionHandling {
 
 
     @Autowired
     ProductService productService;
-
 
 
     @PostMapping("/insert-product")
@@ -51,7 +51,8 @@ public class ProductController {
     }
 
     @GetMapping("/get-product/{productId}")
-    public ResponseEntity<Product> getOneProduct(@PathVariable("productId") Long productId) throws ProductNotFoundException {
+    public ResponseEntity<Product> getOneProduct(@PathVariable("productId") Long productId)
+            throws ProductNotFoundException {
 
         Product product = productService.getProductById(productId);
 
