@@ -19,9 +19,9 @@ import java.util.List;
 @RibbonClient(name = "order-service")
 @RequestMapping("/order-service/orders")*/
 
-@FeignClient(name = "api-gateway", contextId = "orderContextId")
+@FeignClient(name = "cloud-gateway", contextId = "orderContextId", url = "localhost:6003")
 @RibbonClient(name = "order-service")
-@RequestMapping("/order-service/orders")
+@RequestMapping("/orders")
 public interface OrderServiceProxy {
 
     @PostMapping("/insert-order")

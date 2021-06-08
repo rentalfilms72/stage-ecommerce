@@ -19,9 +19,9 @@ import java.util.List;
 /*@FeignClient(name = "payment-service")
 @RequestMapping("/payment-service/payments")*/
 
-@FeignClient(name = "api-gateway", contextId = "paymentContextId")
+@FeignClient(name = "api-gateway", contextId = "paymentContextId", url = "localhost:6003")
 @RibbonClient(name = "payment-service")
-@RequestMapping("/payment-service/payments")
+@RequestMapping("/payments")
 public interface PaymentServiceProxy {
 
 

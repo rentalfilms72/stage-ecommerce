@@ -69,7 +69,7 @@ public class ClientController {
 
         model.addAttribute("productList", productBeanList);
 
-        LOGGER.info("********* Product list empty");
+        /*LOGGER.info("********* Product list empty");*/
 
         return "Home";
     }

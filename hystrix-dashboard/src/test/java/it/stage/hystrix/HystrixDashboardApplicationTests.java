@@ -1,10 +1,10 @@
-package it.stage.apigateway;
+package it.stage.hystrix;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApiGatewayApplicationTests {
+class HystrixDashboardApplicationTests {
 
 	@Test
 	void contextLoads() {

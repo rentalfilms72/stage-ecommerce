@@ -16,9 +16,9 @@ import java.util.List;
 /*@FeignClient(name = "product-service")
 @FeignClient(name = "product-service")*/
 
-@FeignClient(name = "api-gateway", contextId = "productContextId")
+@FeignClient(name = "cloud-gateway", contextId = "productContextId", url = "localhost:6003")
 @RibbonClient(name = "product-service")
-@RequestMapping("/product-service/products")
+@RequestMapping("/products")
 public interface ProductServiceProxy {
 
 
