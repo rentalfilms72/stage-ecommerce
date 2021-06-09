@@ -9,6 +9,7 @@ import it.stage.microservices.product.payload.request.ProductRequest;
 import it.stage.microservices.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,12 +43,18 @@ public class ProductController extends ExceptionHandling {
     }
 
 
-    @GetMapping("/get-all-products")
+    /*@GetMapping(value = "/get-all-products", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<List<Product>> getAllProducts() throws ProductNotFoundException {
 
         List<Product> productList =  productService.getAllProducts();
 
         return new ResponseEntity<>(productList, HttpStatus.CREATED);
+    }*/
+
+    @GetMapping(value = "/get-all-products", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Product> getAllProducts() throws ProductNotFoundException {
+
+        return productService.getAllProducts();
     }
 
     @GetMapping("/get-product/{productId}")

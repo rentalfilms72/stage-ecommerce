@@ -65,8 +65,9 @@ public class MailService {
 
 
         return "Hi \n"
-                + "Just confirm that your order is done.\n\n"
-                + "Your content this product:\n"
-                + "email: " + mailRequest.getProductName() + "\n";
+                + "Confirmation of your order.\n\n"
+                + "OrderId: " + mailRequest.getOrderId() + ".\n\n"
+                + "Quantity:" + mailRequest.getQuantity() + ".\n\n";
+
     }
 }

@@ -4,6 +4,7 @@ import it.stage.microservices.clientui.bean.ProductBean;
 import it.stage.microservices.clientui.payload.request.ProductRequest;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,20 +17,22 @@ import java.util.List;
 /*@FeignClient(name = "product-service")
 @FeignClient(name = "product-service")*/
 
-@FeignClient(name = "cloud-gateway", contextId = "productContextId", url = "localhost:6003")
+@FeignClient(
+        name = "cloud-gateway",
+        contextId = "productContextId",
+        url = "localhost:6003")
 @RibbonClient(name = "product-service")
 @RequestMapping("/products")
 public interface ProductServiceProxy {
 
 
-    @PostMapping("/insert-product")
+    @PostMapping(value = "/insert-product")
     ProductBean insertProduct(@RequestBody ProductRequest productRequest);
 
-
-    @GetMapping("/get-all-products")
+    @GetMapping(value = "/get-all-products", consumes = MediaType.APPLICATION_JSON_VALUE)
     List<ProductBean> getAllProducts();
 
-    @GetMapping("/get-product/{productId}")
+    @GetMapping(value = "/get-product/{productId}")
     ProductBean getOneProduct(@PathVariable("productId") Long productId);
 
 }

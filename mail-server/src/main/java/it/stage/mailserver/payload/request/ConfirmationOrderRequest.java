@@ -12,14 +12,16 @@ public class ConfirmationOrderRequest {
 
     private String emailTo;
 
-    private String productName;
+    private Long orderId;
+
+    private Integer quantity;
 
 
     public static ConfirmationOrderRequest createFrom(OrderBean orderBean) {
 
         return new ConfirmationOrderRequest(
                 orderBean.getCustomerEmail(),
-                orderBean.getProductId().toString()
-        );
+                orderBean.getOrderId(),
+                orderBean.getQuantity());
     }
 }
