@@ -1,0 +1,13 @@
+docker run -d \
+-p 0.0.0.0:3307:3306 \
+--name=mysql-container \
+--restart=always \
+-e MYSQL_ROOT_PASSWORD=123 \
+mysql:latest
+
+
+docker run -d \
+-p 9411:9411 \
+--name=zipkin-container \
+--restart=always \
+openzipkin/zipkin
