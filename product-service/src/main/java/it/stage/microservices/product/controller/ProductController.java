@@ -1,6 +1,7 @@
 package it.stage.microservices.product.controller;
 
 import it.stage.microservices.product.entity.Product;
+import it.stage.microservices.product.exception.EmptyProductListException;
 import it.stage.microservices.product.exception.ExceptionHandling;
 import it.stage.microservices.product.exception.InsertProductImpossibleException;
 import it.stage.microservices.product.exception.ProductNotFoundException;
@@ -52,7 +53,7 @@ public class ProductController extends ExceptionHandling {
     }*/
 
     @GetMapping(value = "/get-all-products", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Product> getAllProducts() throws ProductNotFoundException {
+    public List<Product> getAllProducts() throws EmptyProductListException {
 
         return productService.getAllProducts();
     }

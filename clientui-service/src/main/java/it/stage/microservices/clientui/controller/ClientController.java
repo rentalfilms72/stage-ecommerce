@@ -3,6 +3,7 @@ package it.stage.microservices.clientui.controller;
 import it.stage.microservices.clientui.bean.OrderBean;
 import it.stage.microservices.clientui.bean.PaymentBean;
 import it.stage.microservices.clientui.bean.ProductBean;
+import it.stage.microservices.clientui.exception.EmptyProductListException;
 import it.stage.microservices.clientui.payload.request.OrderRequest;
 import it.stage.microservices.clientui.payload.request.PaymentRequest;
 import it.stage.microservices.clientui.proxy.OrderServiceProxy;
@@ -63,7 +64,7 @@ public class ClientController {
      * This method return the name of the home page Home.html
      * */
     @RequestMapping("/")
-    public String home(Model model) {
+    public String home(Model model) throws EmptyProductListException {
 
         List<ProductBean> productBeanList = productServiceProxy.getAllProducts();
 

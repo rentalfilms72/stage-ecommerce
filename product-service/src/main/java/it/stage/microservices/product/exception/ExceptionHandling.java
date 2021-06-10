@@ -26,6 +26,12 @@ public class ExceptionHandling {
                 httpStatus);
     }
 
+    @ExceptionHandler(EmptyProductListException.class)
+    public ResponseEntity<ApiResponseCustom> emptyProductListException(
+            EmptyProductListException exception) {
+        return createHttpResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ApiResponseCustom> productNotFoundException(
             ProductNotFoundException exception) {

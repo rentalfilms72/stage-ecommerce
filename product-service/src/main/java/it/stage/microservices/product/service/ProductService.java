@@ -2,6 +2,7 @@ package it.stage.microservices.product.service;
 
 import it.stage.microservices.product.config.ApplicationPropertiesConfig;
 import it.stage.microservices.product.entity.Product;
+import it.stage.microservices.product.exception.EmptyProductListException;
 import it.stage.microservices.product.exception.InsertProductImpossibleException;
 import it.stage.microservices.product.exception.ProductNotFoundException;
 import it.stage.microservices.product.payload.request.ProductListRequest;
@@ -60,20 +61,18 @@ public class ProductService {
     }
 
 
-    public List<Product> getAllProducts() throws ProductNotFoundException {
+    public List<Product> getAllProducts() throws  EmptyProductListException {
 
         List<Product> products = productRepository.findAll();
-        log.info("Get all product.........");
-        if(products.isEmpty())
-            throw new ProductNotFoundException("No product available for sale");
+
+        if(products.isEmpty()) {
+            log.info("**** PRODUCT LIST EMPTY .........");
+            throw new EmptyProductListException("No product available for sale");
+        }
 
         int numberOfProduct = products.size();
 
-        List<Product> limitList = new ArrayList<>();
-        limitList = products.subList(0, applicationPropertiesConfig.getLimitOfProducts());
-//        limitList = products.subList(0, numberOfProduct);
-
-        return limitList;
+        return products.subList(0, applicationPropertiesConfig.getLimitOfProducts());
     }
 
 

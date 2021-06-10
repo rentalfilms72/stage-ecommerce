@@ -1,6 +1,7 @@
 package it.stage.microservices.clientui.proxy;
 
 import it.stage.microservices.clientui.bean.ProductBean;
+import it.stage.microservices.clientui.exception.EmptyProductListException;
 import it.stage.microservices.clientui.payload.request.ProductRequest;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -30,7 +31,7 @@ public interface ProductServiceProxy {
     ProductBean insertProduct(@RequestBody ProductRequest productRequest);
 
     @GetMapping(value = "/get-all-products", consumes = MediaType.APPLICATION_JSON_VALUE)
-    List<ProductBean> getAllProducts();
+    List<ProductBean> getAllProducts() throws EmptyProductListException;
 
     @GetMapping(value = "/get-product/{productId}")
     ProductBean getOneProduct(@PathVariable("productId") Long productId);

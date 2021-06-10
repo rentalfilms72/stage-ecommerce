@@ -9,11 +9,3 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false
-
-# disable Ribbon's circuit breaker and rely sole on Hystrix.
-# this helps to avoid confusion.
-# see https://github.com/Netflix/ribbon/issues/15
-#niws:
-#  loadbalancer:
-#    availabilityFilteringRule:
-#      filterCircuitTripped: false
