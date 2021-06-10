@@ -25,32 +25,19 @@ public class ProductController extends ExceptionHandling {
     ProductService productService;
 
 
-    @PostMapping("/insert-product")
-    public ResponseEntity<Product> insertProduct(@RequestBody ProductRequest productRequest)
+    @PostMapping(value = "/insert-product", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product insertProduct(@RequestBody ProductRequest productRequest)
             throws InsertProductImpossibleException {
 
-        Product newProduct = productService.insertProduct(productRequest);
-
-        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+        return productService.insertProduct(productRequest);
     }
 
-    @PostMapping("/insert-many-products")
-    public ResponseEntity<List<Product>> insertManyProduct(@RequestBody ProductListRequest productListRequest)
+    @PostMapping(value = "/insert-many-products", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Product> insertManyProduct(@RequestBody ProductListRequest productListRequest)
             throws InsertProductImpossibleException {
 
-        List<Product> newProductList = productService.insertManyProducts(productListRequest);
-
-        return new ResponseEntity<>(newProductList, HttpStatus.CREATED);
+        return productService.insertManyProducts(productListRequest);
     }
-
-
-    /*@GetMapping(value = "/get-all-products", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<List<Product>> getAllProducts() throws ProductNotFoundException {
-
-        List<Product> productList =  productService.getAllProducts();
-
-        return new ResponseEntity<>(productList, HttpStatus.CREATED);
-    }*/
 
     @GetMapping(value = "/get-all-products", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> getAllProducts() throws EmptyProductListException {
@@ -58,13 +45,11 @@ public class ProductController extends ExceptionHandling {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/get-product/{productId}")
-    public ResponseEntity<Product> getOneProduct(@PathVariable("productId") Long productId)
+    @GetMapping(value = "/get-product/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product getOneProduct(@PathVariable("productId") Long productId)
             throws ProductNotFoundException {
 
-        Product product = productService.getProductById(productId);
-
-        return new ResponseEntity<>(product, HttpStatus.CREATED);
+        return productService.getProductById(productId);
     }
 
 }

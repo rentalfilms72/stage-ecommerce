@@ -27,7 +27,9 @@ public class PaymentService {
     public Payment payOneOrder(PaymentRequest paymentRequest)
             throws PaymentExistException, PaymentImpossibleException {
 
-        Optional<Payment> paymentExist = paymentRepository.findPaymentByOrderId(paymentRequest.getOrderId());
+        Optional<Payment> paymentExist =
+                paymentRepository.findPaymentByOrderId(paymentRequest.getOrderId());
+
         if(paymentExist.isPresent())
             throw new PaymentExistException("This order is already pay");
 
@@ -43,7 +45,7 @@ public class PaymentService {
 
 
         // Call the order microservices to changes the status of payment
-        //TODO and notifier the mail microservice with kafka to send the mail to the customer
+        // notifier the mail microservice with kafka to send the mail to the customer
         orderServiceProxy.updateOrderPaymentStatus(newPayment.getOrderId());
 
         return newPayment;

@@ -63,36 +63,4 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
-
-    /*@Bean
-    public ConsumerFactory<String, OrderBean> orderConsumerFactory() {
-        Map<String, Object> config = new HashMap<>();
-
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, "group_order");
-        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-
-        *//*return new KafkaListenerContainerFactory<>(config, new StringDeserializer(),
-                new JsonDeserializer<>(OrderBean.class));*//*
-        JsonDeserializer<OrderBean> jsonDeserializer = new JsonDeserializer<>();
-        jsonDeserializer.addTrustedPackages("*"); // Adding all packe trusted packages
-
-        return new DefaultKafkaConsumerFactory<>(
-                config,
-                new StringDeserializer(),
-                jsonDeserializer
-        );
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, OrderBean> orderKafkaListenerFactory() {
-
-        ConcurrentKafkaListenerContainerFactory<String, OrderBean> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-
-        factory.setConsumerFactory(orderConsumerFactory());
-
-        return factory;
-    }*/
 }

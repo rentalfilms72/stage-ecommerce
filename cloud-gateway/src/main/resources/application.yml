@@ -1,0 +1,76 @@
+server:
+  port: 6003
+
+spring:
+  zipkin:
+    base-url: http://127.0.0.1:9411
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 100000
+        response-timeout: 100000
+      routes:
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/products/**
+#          metadata:
+#            response-timeout: 10000
+#            connect-timeout: 10000
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: product-service
+#                fallbackuri: forward:/productFallBack
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/orders/**
+#          metadata:
+#            response-timeout: 0
+#            connect-timeout: 0
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: order-service
+#                fallbackuri: forward:/orderFallBack
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/payments/**
+#          metadata:
+#            response-timeout: 0
+#            connect-timeout: 0
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: payment-service
+#                fallbackuri: forward:/paymentFallback
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    feth-registry: true
+    service-url:
+      defaultZone: http://localhost:6001/eureka
+    instance:
+      hostname: localhost
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
+
+#hystrix:
+#  command:
+#    fallbackcmd:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 10000
+#            timeout:
+#              enabled: true

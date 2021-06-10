@@ -134,7 +134,7 @@ public class ClientController {
      * This method just call the PAYMENT MICROSERVICE in order to process the payment
      * */
     @RequestMapping(value = "/pay-order/{orderId}/{orderAmount}")
-    public String payOrder(@PathVariable("orderId")Long orderId,
+    public String payOrder(@PathVariable("orderId") Long orderId,
                            @PathVariable("orderAmount") Double orderAmount,
                            Model model){
 
@@ -146,10 +146,9 @@ public class ClientController {
 
         // We call the microservice payment and get the result which is a ResponseEntity<PaymentBean>
         // so that we can control the returned value
-        ResponseEntity<PaymentBean> paymentBeanResp = paymentServiceProxy.payOneOrder(paymentRequest);
+        PaymentBean paymentBeanResp = paymentServiceProxy.payOneOrder(paymentRequest);
 
-        //if the code is different than 201 CREATED, means that payment fail.
-        boolean paymentAccepted = paymentBeanResp.getStatusCode() == HttpStatus.CREATED;
+        boolean paymentAccepted = paymentBeanResp != null;
 
         model.addAttribute("paymentOk", paymentAccepted);
 

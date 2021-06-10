@@ -6,6 +6,7 @@ import it.stage.microservices.clientui.payload.request.OrderRequest;
 import it.stage.microservices.clientui.payload.request.ProductRequest;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +20,13 @@ import java.util.List;
 @RibbonClient(name = "order-service")
 @RequestMapping("/order-service/orders")*/
 
-@FeignClient(name = "cloud-gateway", contextId = "orderContextId", url = "localhost:6003")
+@FeignClient(name = "cloud-gateway",
+        contextId = "orderContextId",
+        url = "localhost:6003")
 @RibbonClient(name = "order-service")
 @RequestMapping("/orders")
 public interface OrderServiceProxy {
 
-    @PostMapping("/insert-order")
+    @PostMapping(value = "/insert-order", consumes = MediaType.APPLICATION_JSON_VALUE)
     OrderBean insertOrder(@RequestBody OrderRequest orderRequest);
 }

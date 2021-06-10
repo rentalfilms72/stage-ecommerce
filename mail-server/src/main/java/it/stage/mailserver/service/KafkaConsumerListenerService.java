@@ -29,7 +29,7 @@ public class KafkaConsumerListenerService {
     public void consumeOrder(ConsumerRecord<String, String> record)
             throws JsonProcessingException, MessagingException {
 
-        // Convert a jso string to an Object(OrderBean)
+        // Convert a json string to an Object(OrderBean)
         OrderBean orderBean = new ObjectMapper().readValue(record.value(), OrderBean.class);
 
         // send the mail

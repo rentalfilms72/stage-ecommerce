@@ -8,6 +8,7 @@ import it.stage.microservices.payment.payload.request.PaymentRequest;
 import it.stage.microservices.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,13 +23,11 @@ public class PaymentController {
     private PaymentService paymentService;
 
 
-    @PostMapping("/insert-payment")
-    public ResponseEntity<Payment> payOneOrder(@RequestBody PaymentRequest paymentRequest)
+    @PostMapping(value = "/insert-payment", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Payment payOneOrder(@RequestBody PaymentRequest paymentRequest)
             throws PaymentExistException, PaymentImpossibleException {
 
-        Payment newPayment = paymentService.payOneOrder(paymentRequest);
-
-        return new ResponseEntity<>(newPayment, HttpStatus.CREATED);
+        return paymentService.payOneOrder(paymentRequest);
     }
 
 }

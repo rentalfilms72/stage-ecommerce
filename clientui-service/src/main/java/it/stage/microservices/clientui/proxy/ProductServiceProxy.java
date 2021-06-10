@@ -27,13 +27,13 @@ import java.util.List;
 public interface ProductServiceProxy {
 
 
-    @PostMapping(value = "/insert-product")
+    @PostMapping(value = "/insert-product", consumes = MediaType.APPLICATION_JSON_VALUE)
     ProductBean insertProduct(@RequestBody ProductRequest productRequest);
 
     @GetMapping(value = "/get-all-products", consumes = MediaType.APPLICATION_JSON_VALUE)
     List<ProductBean> getAllProducts() throws EmptyProductListException;
 
-    @GetMapping(value = "/get-product/{productId}")
+    @GetMapping(value = "/get-product/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ProductBean getOneProduct(@PathVariable("productId") Long productId);
 
 }

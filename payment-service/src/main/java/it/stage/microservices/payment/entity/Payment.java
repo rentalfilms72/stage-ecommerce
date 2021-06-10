@@ -20,7 +20,7 @@ public class Payment implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long paymentId;
 
-    @Column(unique = true)
+    /*@Column(unique = true)*/
     private Long orderId;
 
     private Double amount;
