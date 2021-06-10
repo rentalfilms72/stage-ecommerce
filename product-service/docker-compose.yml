@@ -1,0 +1,35 @@
+version: '3'
+
+networks:
+  mysql_network:
+  product_network:
+
+volumes:
+  mysql_data:
+      driver: local
+
+services:
+  mysql-service:
+    image: mysql
+    container_name: mysql-product
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 0.0.0.0:3300:3306
+    networks:
+      - mysql_network
+      
+  product-service:
+    container_name: product-container
+    restart: on-failure
+    build: ./
+    ports:
+      - 7001:8080
+    environment:
+      WAIT_HOSTS: mysql:3306
+    depends_on:
+      - mysql-service
