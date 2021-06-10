@@ -1,0 +1,22 @@
+version: '3'
+
+networks:
+  cloud_network:
+
+volumes:
+  mysql_data:
+      driver: local
+
+services:     
+  product-service:
+    container_name: product-container
+    restart: on-failure
+    build:
+      context: product-service
+      dockerfile: BuildProductImage
+    ports:
+      - 7001:8080
+    environment:
+      WAIT_HOSTS: mysql:3306
+    networks:
+      - cloud_project_network
