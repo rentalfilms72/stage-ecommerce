@@ -5,13 +5,16 @@ networks:
 
 services:
   # Start the Eureka server
-  eureka-service:
+  eureka-server:
     container_name: eureka-container
     restart: on-failure
     build:
       context: ./
       dockerfile: BuildEurekaImage
+    expose:
+      - 6001
     ports:
-      - 0.0.0.0:6001:8761   
+      - 8761:8761
+      - 6001:6001    
     networks:
       - cloud_network

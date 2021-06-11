@@ -1,0 +1,24 @@
+version: '3'
+
+networks:
+  cloud_network:
+
+services:
+  # Start the config server
+  config-server:
+    container_name: config-container
+    restart: on-failure
+    build:
+      context: ./
+      dockerfile: BuildConfigImage
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:6001/eureka
+    expose:
+      - 6000
+    ports:
+      - 8888:8888
+      - 6000:6000  
+    networks:
+      - cloud_network
+    # depends_on:
+      # - eureka-server

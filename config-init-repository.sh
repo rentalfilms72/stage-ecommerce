@@ -1,3 +1,9 @@
+# Function to implement the pause command
+function pause(){
+ read -s -n 1 -p "Press any key to continue . . ."
+ echo ""
+}
+
 #@echo "Initialisation of local repository GIT..."
 git init
 
@@ -13,3 +19,7 @@ git commit -m "First commit"
 #@echo "pushing..."
 git push -u myorigin master
 
+echo ""
+echo ""
+pause
+sleep 2m

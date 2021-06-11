@@ -14,28 +14,38 @@ services:
   ###################################
   
   # Start the Eureka server
-  eureka-service:
+  eureka-server:
     container_name: eureka-container
     restart: on-failure
     build:
       context: eureka-server
       dockerfile: BuildEurekaImage
+    expose:
+      - 6001
     ports:
-      - 6001:8080    
+      - 8761:8761
+      - 6001:6001    
     networks:
       - cloud_network
   
   # Start the Config server
-  config-service:
+  config-server:
     container_name: config-container
     restart: on-failure
     build:
       context: config-server
       dockerfile: BuildConfigImage
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:6001/eureka
+    expose:
+      - 6000
     ports:
-      - 6000:8080    
+      - 8888:8888
+      - 6000:6000  
     networks:
       - cloud_network
+    depends_on:
+      - eureka-server
   
   # Start the cloud gateway
   gateway-service:
@@ -44,12 +54,20 @@ services:
     build:
       context: cloud-gateway
       dockerfile: BuildGatewayImage
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:6001/eureka 
+      CONFIG_SERVER_BASE_URL: http://config-server:6000
+      ZIPKIN_BASE_URL: http://zipkin-service:9411
+    expose:
+      - 6002
     ports:
-      - 6002:8080    
+      - 8989:8989
+      - 6002:6002    
     networks:
       - cloud_network
     depends_on:
-      - config-service
+      - eureka-server
+      - config-server
   
   # Start the Zipkin server
   zipkin-service:
@@ -73,12 +91,16 @@ services:
     build:
       context: clientui-service
       dockerfile: BuildClientUIImage
+    expose:
+      - 7000
     ports:
-      - 7000:8080
+      - 7000:7000
     networks:
       - cloud_network
     depends_on:
-      - config-service
+      - eureka-server
+      - config-server
+      - gateway-service
   
   # Start the product-service
   product-service:
@@ -87,14 +109,18 @@ services:
     build:
       context: product-service
       dockerfile: BuildProductImage
+    expose:
+      - 7001
     ports:
-      - 7001:8080
+      - 7001:7001
     environment:
       WAIT_HOSTS: mysql:3306
     networks:
       - cloud_network
     depends_on:
-      - config-service
+      - eureka-server
+      - config-server
+      - gateway-service
       
   # Start the order-service
   order-service:
@@ -103,14 +129,18 @@ services:
     build:
       context: order-service
       dockerfile: BuildOrderImage
+    expose:
+      - 7002
     ports:
-      - 7002:8080
+      - 7002:7002
     environment:
       WAIT_HOSTS: mysql:3306
     networks:
       - cloud_network
     depends_on:
-      - config-service
+      - eureka-server
+      - config-server
+      - gateway-service
       
   # Start the payment-service
   payment-service:
@@ -119,14 +149,18 @@ services:
     build:
       context: payment-service
       dockerfile: BuildPaymentImage
+    expose:
+      - 7003
     ports:
-      - 7003:8080
+      - 7003:7003
     environment:
       WAIT_HOSTS: mysql:3306
     networks:
       - cloud_network
     depends_on:
-      - config-service
+      - eureka-server
+      - config-server
+      - gateway-service
       
   # Start the mail-service
   mail-service:
@@ -135,7 +169,13 @@ services:
     build:
       context: mail-server
       dockerfile: BuildMailImage
+    expose:
+      - 7005
     ports:
-      - 7005:8080
+      - 7005:7005
     networks:
       - cloud_network
+    depends_on:
+      - eureka-server
+      - config-server
+      - gateway-service

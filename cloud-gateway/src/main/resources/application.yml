@@ -3,7 +3,7 @@ server:
 
 spring:
   zipkin:
-    base-url: http://127.0.0.1:9411
+    base-url: ${ZIPKIN_BASE_URL:http://127.0.0.1:9411}
   cloud:
     gateway:
       httpclient:
@@ -53,7 +53,7 @@ eureka:
     register-with-eureka: true
     feth-registry: true
     service-url:
-      defaultZone: http://localhost:6001/eureka
+      defaultZone: ${EUREKA_SERVER_URL:http://127.0.0.1:6001/eureka}
     instance:
       hostname: localhost
 

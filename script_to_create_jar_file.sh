@@ -41,4 +41,4 @@ docker-compose up
 echo ""
 echo ""
 pause
-sleep 30m
+sleep 2m
