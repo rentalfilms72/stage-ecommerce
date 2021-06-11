@@ -2,7 +2,7 @@ version: '3'
 
 networks:
   mysql_network:
-  product_network:
+  cloud_network:
 
 volumes:
   mysql_data:
@@ -26,10 +26,14 @@ services:
   product-service:
     container_name: product-container
     restart: on-failure
-    build: ./
+    build:
+      context: ./
+      dockerfile: BuildProductImage
     ports:
       - 7001:8080
     environment:
       WAIT_HOSTS: mysql:3306
+    networks:
+      - cloud_network
     depends_on:
       - mysql-service

@@ -2,12 +2,85 @@ version: '3'
 
 networks:
   cloud_network:
-
+    driver: bridge
+  
 volumes:
-  mysql_data:
-      driver: local
+  zipkin_data:
+    driver: local
 
-services:     
+services:    
+  ###################################
+  #       EDGE MICROSERVICES        #
+  ###################################
+  
+  # Start the Eureka server
+  eureka-service:
+    container_name: eureka-container
+    restart: on-failure
+    build:
+      context: eureka-server
+      dockerfile: BuildEurekaImage
+    ports:
+      - 6001:8080    
+    networks:
+      - cloud_network
+  
+  # Start the Config server
+  config-service:
+    container_name: config-container
+    restart: on-failure
+    build:
+      context: config-server
+      dockerfile: BuildConfigImage
+    ports:
+      - 6000:8080    
+    networks:
+      - cloud_network
+  
+  # Start the cloud gateway
+  gateway-service:
+    container_name: gateway-container
+    restart: on-failure
+    build:
+      context: cloud-gateway
+      dockerfile: BuildGatewayImage
+    ports:
+      - 6002:8080    
+    networks:
+      - cloud_network
+    depends_on:
+      - config-service
+  
+  # Start the Zipkin server
+  zipkin-service:
+    image: openzipkin/zipkin
+    container_name: zipkin-container
+    restart: on-failure
+    volumes:
+      - zipkin_data:/var/lib/zipkin
+    ports:
+      - 9411:9411    
+    networks:
+      - cloud_network
+  
+  ###################################
+  #         MICROSERVICES           #
+  ###################################
+  # Start clientui service
+  clientui-service:
+    container_name: clientui-container
+    restart: on-failure
+    build:
+      context: clientui-service
+      dockerfile: BuildClientUIImage
+    ports:
+      - 7000:8080
+    networks:
+      - cloud_network
+    depends_on:
+      - config-service
+  
+  # Start the product-service
   product-service:
     container_name: product-container
     restart: on-failure
@@ -19,4 +92,50 @@ services:
     environment:
       WAIT_HOSTS: mysql:3306
     networks:
-      - cloud_project_network
+      - cloud_network
+    depends_on:
+      - config-service
+      
+  # Start the order-service
+  order-service:
+    container_name: order-container
+    restart: on-failure
+    build:
+      context: order-service
+      dockerfile: BuildOrderImage
+    ports:
+      - 7002:8080
+    environment:
+      WAIT_HOSTS: mysql:3306
+    networks:
+      - cloud_network
+    depends_on:
+      - config-service
+      
+  # Start the payment-service
+  payment-service:
+    container_name: payment-container
+    restart: on-failure
+    build:
+      context: payment-service
+      dockerfile: BuildPaymentImage
+    ports:
+      - 7003:8080
+    environment:
+      WAIT_HOSTS: mysql:3306
+    networks:
+      - cloud_network
+    depends_on:
+      - config-service
+      
+  # Start the mail-service
+  mail-service:
+    container_name: mail-container
+    restart: on-failure
+    build:
+      context: mail-server
+      dockerfile: BuildMailImage
+    ports:
+      - 7005:8080
+    networks:
+      - cloud_network
