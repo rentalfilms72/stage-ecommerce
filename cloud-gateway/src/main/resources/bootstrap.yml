@@ -6,8 +6,6 @@ spring:
     config:
       uri:
        - ${CONFIG_SERVER_BASE_URL:http://127.0.0.1:6000}
-      server:
-        bootstrap: true
     loadbalancer:
       ribbon:
         enabled: false

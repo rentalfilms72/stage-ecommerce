@@ -22,7 +22,7 @@ import java.util.List;
 
 @FeignClient(name = "cloud-gateway",
         contextId = "paymentContextId",
-        url = "localhost:6003")
+        url = "${GATEWAY_HOSTNAME_AND_PORT:localhost:6003}")
 @RibbonClient(name = "payment-service")
 @RequestMapping("/payments")
 public interface PaymentServiceProxy {

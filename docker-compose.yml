@@ -1,5 +1,6 @@
 version: '3'
 
+
 networks:
   cloud_network:
     driver: bridge
@@ -7,11 +8,113 @@ networks:
 volumes:
   zipkin_data:
     driver: local
+  mysql_data:
+    driver: local
+  # sql_entrypoint:
+    # driver: local
 
-services:    
+services:
+  
+  ###################################
+  #          KAFKA CLUSTER          #
+  ###################################
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper-1-container
+    restart: always
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - cloud_network
+
+  zookeeper-2:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper-2-container
+    restart: always
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 32181:2181
+    networks:
+      - cloud_network
+  
+  kafka-1:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka-1-container
+    restart: always
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - cloud_network
+  kafka-2:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka-2-container
+    restart: always
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+    ports:
+      - 39092:39092
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092,PLAINTEXT_HOST://localhost:39092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - cloud_network
+
+  ###################################
+  #            DATA BASE            #
+  ###################################
+  mysql-cloud:
+    image: mysql
+    container_name: mysql-container
+    restart: always
+    environment:
+      # MYSQL_DATABASE: product_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_USER: microservice
+      MYSQL_PASSWORD: microservice
+    volumes:
+      # - sql_entrypoint:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+      # - ./my_cnf:/etc/my.cnf
+    ports:
+      - 6033:3306
+    networks:
+      - cloud_network
+
   ###################################
   #       EDGE MICROSERVICES        #
   ###################################
+  # Start the Zipkin server
+  zipkin-service:
+    image: openzipkin/zipkin
+    container_name: zipkin-container
+    restart: on-failure
+    volumes:
+      - zipkin_data:/var/lib/zipkin
+    ports:
+      - 9411:9411    
+    networks:
+      - cloud_network
   
   # Start the Eureka server
   eureka-server:
@@ -69,18 +172,6 @@ services:
       - eureka-server
       - config-server
   
-  # Start the Zipkin server
-  zipkin-service:
-    image: openzipkin/zipkin
-    container_name: zipkin-container
-    restart: on-failure
-    volumes:
-      - zipkin_data:/var/lib/zipkin
-    ports:
-      - 9411:9411    
-    networks:
-      - cloud_network
-  
   ###################################
   #         MICROSERVICES           #
   ###################################
@@ -91,6 +182,11 @@ services:
     build:
       context: clientui-service
       dockerfile: BuildClientUIImage
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:6001/eureka 
+      CONFIG_SERVER_BASE_URL: http://config-server:6000
+      ZIPKIN_BASE_URL: http://zipkin-service:9411
+      GATEWAY_HOSTNAME_AND_PORT: gateway-service:6003
     expose:
       - 7000
     ports:
@@ -101,6 +197,8 @@ services:
       - eureka-server
       - config-server
       - gateway-service
+      - kafka-1
+      - kafka-2
   
   # Start the product-service
   product-service:
@@ -109,18 +207,25 @@ services:
     build:
       context: product-service
       dockerfile: BuildProductImage
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:6001/eureka 
+      CONFIG_SERVER_BASE_URL: http://config-server:6000
+      ZIPKIN_BASE_URL: http://zipkin-service:9411
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-cloud:3306/product_db?createDatabaseIfNotExist=true&autoReconnect=true&useSLL=false&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      WAIT_HOSTS: mysql-cloud:3306
     expose:
       - 7001
     ports:
-      - 7001:7001
-    environment:
-      WAIT_HOSTS: mysql:3306
+      - 7001:7001      
     networks:
       - cloud_network
     depends_on:
       - eureka-server
       - config-server
       - gateway-service
+      - mysql-cloud
       
   # Start the order-service
   order-service:
@@ -129,18 +234,27 @@ services:
     build:
       context: order-service
       dockerfile: BuildOrderImage
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:6001/eureka 
+      CONFIG_SERVER_BASE_URL: http://config-server:6000
+      ZIPKIN_BASE_URL: http://zipkin-service:9411
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-cloud:3306/order_db?createDatabaseIfNotExist=true&autoReconnect=true&useSLL=false&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      WAIT_HOSTS: mysql-cloud:3306
     expose:
       - 7002
     ports:
       - 7002:7002
-    environment:
-      WAIT_HOSTS: mysql:3306
     networks:
       - cloud_network
     depends_on:
       - eureka-server
       - config-server
       - gateway-service
+      - mysql-cloud
+      - kafka-1
+      - kafka-2
       
   # Start the payment-service
   payment-service:
@@ -149,18 +263,27 @@ services:
     build:
       context: payment-service
       dockerfile: BuildPaymentImage
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:6001/eureka 
+      CONFIG_SERVER_BASE_URL: http://config-server:6000
+      ZIPKIN_BASE_URL: http://zipkin-service:9411
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-cloud:3306/payment_db?createDatabaseIfNotExist=true&autoReconnect=true&useSLL=false&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      WAIT_HOSTS: mysql-cloud:3306
     expose:
       - 7003
     ports:
       - 7003:7003
-    environment:
-      WAIT_HOSTS: mysql:3306
     networks:
       - cloud_network
     depends_on:
       - eureka-server
       - config-server
       - gateway-service
+      - mysql-cloud
+      - kafka-1
+      - kafka-2
       
   # Start the mail-service
   mail-service:
@@ -169,6 +292,10 @@ services:
     build:
       context: mail-server
       dockerfile: BuildMailImage
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:6001/eureka 
+      CONFIG_SERVER_BASE_URL: http://config-server:6000
+      ZIPKIN_BASE_URL: http://zipkin-service:9411
     expose:
       - 7005
     ports:
@@ -179,3 +306,5 @@ services:
       - eureka-server
       - config-server
       - gateway-service
+      - kafka-1
+      - kafka-2

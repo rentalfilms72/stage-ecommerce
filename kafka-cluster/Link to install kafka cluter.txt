@@ -1,0 +1,6 @@
+More information about installation of kafka cluster and kafkatool
+	https://www.baeldung.com/ops/kafka-docker-setup
+
+install the kafka tool: it is an interface to connect to the kafka cluster installed on docker 
+	https://kafkatool.com/download.html
+
