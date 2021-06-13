@@ -8,6 +8,7 @@ import it.stage.mailserver.bean.OrderBean;
 import it.stage.mailserver.constant.KafkaConstant;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -22,6 +23,9 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
+
+    @Value(value = "${kafka.bootstrap.server.config}")
+    private String bootstrapServerConfig;
 
 
     // Function to establish a connection

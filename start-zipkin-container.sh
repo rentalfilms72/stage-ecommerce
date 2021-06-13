@@ -5,9 +5,12 @@ function pause(){
 }
 echo "> START MYSQL CONTAINER <"
 
+# Dangling images are not referenced by other images and are safe to delete
+# docker rmi -f $(docker images -f "dangling=true" -q)
+
 docker compose up zipkin-service -d --build --force-recreate 
 
 echo ""
 echo ""
-# pause
+pause
 sleep 30

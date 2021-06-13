@@ -1,6 +1,5 @@
 version: '3'
 
-
 networks:
   cloud_network:
     driver: bridge
@@ -18,66 +17,66 @@ services:
   ###################################
   #          KAFKA CLUSTER          #
   ###################################
-  zookeeper-1:
-    image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper-1-container
-    restart: always
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - 22181:2181
-    networks:
-      - cloud_network
+  # zookeeper-1:
+    # image: confluentinc/cp-zookeeper:latest
+    # container_name: zookeeper-1-container
+    # restart: always
+    # environment:
+      # ZOOKEEPER_CLIENT_PORT: 2181
+      # ZOOKEEPER_TICK_TIME: 2000
+    # ports:
+      # - 22181:2181
+    # networks:
+      # - cloud_network
 
-  zookeeper-2:
-    image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper-2-container
-    restart: always
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - 32181:2181
-    networks:
-      - cloud_network
+  # zookeeper-2:
+    # image: confluentinc/cp-zookeeper:latest
+    # container_name: zookeeper-2-container
+    # restart: always
+    # environment:
+      # ZOOKEEPER_CLIENT_PORT: 2181
+      # ZOOKEEPER_TICK_TIME: 2000
+    # ports:
+      # - 32181:2181
+    # networks:
+      # - cloud_network
   
-  kafka-1:
-    image: confluentinc/cp-kafka:latest
-    container_name: kafka-1-container
-    restart: always
-    depends_on:
-      - zookeeper-1
-      - zookeeper-2
-    ports:
-      - 29092:29092
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - cloud_network
-  kafka-2:
-    image: confluentinc/cp-kafka:latest
-    container_name: kafka-2-container
-    restart: always
-    depends_on:
-      - zookeeper-1
-      - zookeeper-2
-    ports:
-      - 39092:39092
-    environment:
-      KAFKA_BROKER_ID: 2
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092,PLAINTEXT_HOST://localhost:39092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - cloud_network
+  # kafka:
+    # image: confluentinc/cp-kafka:latest
+    # container_name: kafka-container
+    # restart: always
+    # depends_on:
+      # - zookeeper-1
+      # - zookeeper-2
+    # ports:
+      # - 29092:29092
+    # environment:
+      # KAFKA_BROKER_ID: 1
+      # KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181
+      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      # KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    # networks:
+      # - cloud_network
+  # kafka-2:
+    # image: confluentinc/cp-kafka:latest
+    # container_name: kafka-2-container
+    # restart: always
+    # depends_on:
+      # - zookeeper-1
+      # - zookeeper-2
+    # ports:
+      # - 39092:39092
+    # environment:
+      # KAFKA_BROKER_ID: 2
+      # KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181
+      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092,PLAINTEXT_HOST://localhost:39092
+      # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      # KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    # networks:
+      # - cloud_network
 
   ###################################
   #            DATA BASE            #
@@ -197,8 +196,6 @@ services:
       - eureka-server
       - config-server
       - gateway-service
-      - kafka-1
-      - kafka-2
   
   # Start the product-service
   product-service:
@@ -238,6 +235,7 @@ services:
       EUREKA_SERVER_URL: http://eureka-server:6001/eureka 
       CONFIG_SERVER_BASE_URL: http://config-server:6000
       ZIPKIN_BASE_URL: http://zipkin-service:9411
+      # BOOTSTRAP_SERVERS_CONFIG_KAFKA: kafka:9092
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-cloud:3306/order_db?createDatabaseIfNotExist=true&autoReconnect=true&useSLL=false&useLegacyDatetimeCode=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
@@ -253,8 +251,6 @@ services:
       - config-server
       - gateway-service
       - mysql-cloud
-      - kafka-1
-      - kafka-2
       
   # Start the payment-service
   payment-service:
@@ -282,8 +278,7 @@ services:
       - config-server
       - gateway-service
       - mysql-cloud
-      - kafka-1
-      - kafka-2
+      # - kafka
       
   # Start the mail-service
   mail-service:
@@ -296,6 +291,7 @@ services:
       EUREKA_SERVER_URL: http://eureka-server:6001/eureka 
       CONFIG_SERVER_BASE_URL: http://config-server:6000
       ZIPKIN_BASE_URL: http://zipkin-service:9411
+      # BOOTSTRAP_SERVERS_CONFIG_KAFKA: kafka:9092
     expose:
       - 7005
     ports:
@@ -306,5 +302,3 @@ services:
       - eureka-server
       - config-server
       - gateway-service
-      - kafka-1
-      - kafka-2

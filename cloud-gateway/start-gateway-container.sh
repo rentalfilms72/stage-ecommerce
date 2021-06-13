@@ -7,10 +7,17 @@ echo "> DOCKERISATION OF CLOUD-GATEWAY MICROSERVICE <"
 # Go back to the parent repository
 cd ..
 
-# Dangling images are not referenced by other images and are safe to delete
-docker rmi -f $(docker images -f "dangling=true" -q)
+# This will remove all local volumes not used by at least one container.
+docker volume prune -f
 
 docker compose up gateway-service -d --build --force-recreate 
+
+# Dangling images are not referenced by other images and are safe to delete
+# This will remove all dangling images
+docker image prune -f
+
+# This will remove all custom networks not used by at least one container.
+docker network prune -f
 
 echo ""
 echo ""

@@ -3,14 +3,12 @@ function pause(){
  read -s -n 1 -p "Press any key to continue . . ."
  echo ""
 }
-echo "> DOCKERISATION OF PRODUCT-SERVICE MICROSERVICE <"
-# Go back to the parent repository
-cd ..
+echo "> START KAFKA USING CONFLUENCE PLATFORM <"
 
 # This will remove all local volumes not used by at least one container.
 docker volume prune -f
 
-docker compose up product-service -d --build --force-recreate 
+docker compose up -d --force-recreate 
 
 # Dangling images are not referenced by other images and are safe to delete
 # This will remove all dangling images
