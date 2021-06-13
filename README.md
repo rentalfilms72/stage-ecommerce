@@ -3,6 +3,6 @@
 ## Tools to install
 You must install this tools first:
 - Docker https://docs.docker.com/get-docker/
-- UI Tool for Kafka https://kafkatool.com/download.html
-- mysql client (for example: MySQL Workbench, PhpMyAdmin, ...)
-- git https://git-scm.com/downloads
+- Kafka using confluent platform 
+- Mysql client (for example: MySQL Workbench, PhpMyAdmin, ...)
+- Git https://git-scm.com/downloads
