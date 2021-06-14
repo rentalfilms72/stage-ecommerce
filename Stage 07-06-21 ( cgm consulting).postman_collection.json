@@ -1,0 +1,581 @@
+{
+	"info": {
+		"_postman_id": "6f3f6c8a-fb8b-4949-ae44-b8f1875dcb9c",
+		"name": "Stage 07-06-21 ( cgm consulting)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Client UI",
+			"item": [
+				{
+					"name": "[Home page] Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay one order Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": 1,\r\n    \"amount\": 200.50,\r\n    \"cartNumber\": 533398541239\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/product-details/23",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"product-details",
+								"23"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product service",
+			"item": [
+				{
+					"name": "Insert product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Scacchiera\",\r\n    \"description\": \"LE DUE TORRI Completo da torneo Scacchi+Scacchiera+Borsa\",\r\n    \"image\": \"https://i.ibb.co/Y2Y3Rpq/Scacchiera.jpg\",\r\n    \"price\": 19.26\r\n}\r\n\r\n\r\n/*\r\n{\r\n    \"title\": \"Scacchiera\",\r\n    \"description\": \"LE DUE TORRI Completo da torneo Scacchi+Scacchiera+Borsa\",\r\n    \"image\": \"https://i.ibb.co/Y2Y3Rpq/Scacchiera.jpg\",\r\n    \"price\": 19.26\r\n}\r\n\r\n{\r\n        \"productId\": 1,\r\n        \"title\": \"Cuffie\",\r\n        \"description\": \"Sennheiser HD 599 Cuffie Aperte sul Retro, Edizione Speciale, Nero\",\r\n        \"image\": \"https://i.ibb.co/pzGVTLv/Cuffie-0.jpg\",\r\n        \"price\": 25.52\r\n    },\r\n    {\r\n        \"productId\": 2,\r\n        \"title\": \"Headphone\",\r\n        \"description\": \"Headphone Cuffie Aperte sul Retro, Nero, Buona qualita\",\r\n        \"image\": \"https://i.ibb.co/P6Gw2Vy/headphones.png\",\r\n        \"price\": 55.52\r\n    },\r\n    {\r\n        \"productId\": 3,\r\n        \"title\": \"Ideco\",\r\n        \"description\": \"Atelier Ideco - Caché Grigio Pot Interno E Rosegold Calcestruzzo\",\r\n        \"image\": \"https://i.ibb.co/BNWwJFG/Ideco.jpg\",\r\n        \"price\": 15.45\r\n    },\r\n    {\r\n        \"productId\": 4,\r\n        \"title\": \"Maschera-1\",\r\n        \"description\": \"Dodheah Maschera per Dormire Seta Maschera Occhi per Dormire Morbida\",\r\n        \"image\": \"https://i.ibb.co/KV9WwHS/Maschera-1.jpg\",\r\n        \"price\": 23.22\r\n    },\r\n    {\r\n        \"productId\": 5,\r\n        \"title\": \"Maschera-2\",\r\n        \"description\": \"Maschera per Occhi per Dormire Più Veloce e Silenziosamente e Svegliarsi Riposati, con App iOS\",\r\n        \"image\": \"https://i.ibb.co/2NsQNy6/Maschera-2.jpg\",\r\n        \"price\": 112.52\r\n    },\r\n    {\r\n        \"productId\": 6,\r\n        \"title\": \"Mate book\",\r\n        \"description\": \"Ultrabook Laptop, Intel Core i5-10210U, RAM 8GB, SSD da 256GB, Windows 10 Home, Gray\",\r\n        \"image\": \"https://i.ibb.co/2FZb66J/Mate-Book-0.jpg\",\r\n        \"price\": 635.0\r\n    },\r\n    {\r\n        \"productId\": 7,\r\n        \"title\": \"Occhiali da Sole\",\r\n        \"description\": \"Occhiali da Sole Ultra Leggeri da Uomo Occhiali da Sole Rettangolari Polarizzati per Protezione UV dell'uomo\",\r\n        \"image\": \"https://i.ibb.co/kJqK4C2/Occhiali.jpg\",\r\n        \"price\": 69.52\r\n    },\r\n    {\r\n        \"productId\": 8,\r\n        \"title\": \"Photo camera 1\",\r\n        \"description\": \"Sennheiser HD 599 Cuffie Aperte sul Retro, Edizione Speciale, Nero\",\r\n        \"image\": \"https://i.ibb.co/k41k4rC/pexels-photo-90946.jpg\",\r\n        \"price\": 95.5\r\n    },\r\n    {\r\n        \"productId\": 9,\r\n        \"title\": \"Porta-candella\",\r\n        \"description\": \"Porta candela Linea Traforo Realizzato e dipinto a mano Le Ceramiche del Castello Made in Italy Dimensioni 14,5 x 11 cm\",\r\n        \"image\": \"https://i.ibb.co/pdCL4Yf/Porta-candella.jpg\",\r\n        \"price\": 25.52\r\n    },\r\n    {\r\n        \"productId\": 10,\r\n        \"title\": \"Samsung-tv\",\r\n        \"description\": \"Samsung TV QE55Q64TAUXZT Serie Q60T Modello Q64T QLED Smart TV 55\",\r\n        \"image\": \"https://i.ibb.co/v43KDqL/Samsung-tv.jpg\",\r\n        \"price\": 255.02\r\n    },\r\n    {\r\n        \"productId\": 11,\r\n        \"title\": \"Swan-Optic-22089\",\r\n        \"description\": \"Swan-Optic-22089\",\r\n        \"image\": \"https://i.ibb.co/KxhGpDJ/Swan-Optic-22089.jpg\",\r\n        \"price\": 25.52\r\n    },\r\n    {\r\n        \"productId\": 12,\r\n        \"title\": \"Tazze-1\",\r\n        \"description\": \"Bicchieri di rame Moscow Mule Include 4 bicchieri, 4 sottobicchieri, 4 cannucce, \",\r\n        \"image\": \"https://i.ibb.co/Z8N7xqn/Tazze-1.jpg\",\r\n        \"price\": 45.28\r\n    },\r\n    {\r\n        \"productId\": 13,\r\n        \"title\": \"Tazze-2\",\r\n        \"description\": \"Set 4 Tazze Rame Moscow Mule, 18 Oz Rame Tazza con 4 Sottobicchieri, 4 Cannucce\",\r\n        \"image\": \"https://i.ibb.co/GVJBFX1/tazze-2.jpg\",\r\n        \"price\": 52.59\r\n    },\r\n    {\r\n        \"productId\": 14,\r\n        \"title\": \"Telecamera\",\r\n        \"description\": \"Cam Telecamera per Auto 1080P FHD 3 pollici Schermo grandangolare 170 °\",\r\n        \"image\": \"https://i.ibb.co/WyQdcML/Telecamera.jpg\",\r\n        \"price\": 135.52\r\n    },\r\n    {\r\n        \"productId\": 15,\r\n        \"title\": \"Adattatore-da-usb\",\r\n        \"description\": \"Adattatore da USB C a 3,5 mm Adattatore di Ricarica e Audio Jack 2 in 1 USB\",\r\n        \"image\": \"https://i.ibb.co/L62Kb42/Adattatore-da-usb.jpg\",\r\n        \"price\": 11.52\r\n    },\r\n    {\r\n        \"productId\": 16,\r\n        \"title\": \"Adattatore-Jack\",\r\n        \"description\": \"Adattatore Jack per Cuffie per iPhone 12/11/X/SE, Adattatore Audio e Ricarica\",\r\n        \"image\": \"https://i.ibb.co/mtcvxFb/adattatore-jack.jpg\",\r\n        \"price\": 15.82\r\n    },\r\n    {\r\n        \"productId\": 17,\r\n        \"title\": \"Controller-xbox\",\r\n        \"description\": \"Microsoft Controller wireless per Xbox, Edizione speciale Daystrike Camo\",\r\n        \"image\": \"https://i.ibb.co/v3HGCz4/Controller-xbox.jpg\",\r\n        \"price\": 50.12\r\n    },\r\n    {\r\n        \"productId\": 18,\r\n        \"title\": \"Cuffie-ps5\",\r\n        \"description\": \"Cuffie Gaming per PS5 Xbox One, Multi-Platform Riduzione del Rumore Cuffie con Microfono Confortevole Stereo Bassi\",\r\n        \"image\": \"https://i.ibb.co/7GPbGFM/Cuffie-ps5.jpg\",\r\n        \"price\": 69.29\r\n    },\r\n    {\r\n        \"productId\": 19,\r\n        \"title\": \"Estrattore-di-succo\",\r\n        \"description\": \"Moulinex ZU420E Juice & Clean, Estrattore di Succo a Freddo, con Teconlogia Easy Clean\",\r\n        \"image\": \"https://i.ibb.co/1RjQYP4/Estrattore-di-succo.jpg\",\r\n        \"price\": 101.42\r\n    },\r\n    {\r\n        \"productId\": 20,\r\n        \"title\": \"Impastatrice\",\r\n        \"description\": \"Moulinex QA810D MasterChef Grande Impastatrice Planetaria, 1500 W, 6.7 Litri, 80\",\r\n        \"image\": \"https://i.ibb.co/0JkVYmy/Impastatrice.jpg\",\r\n        \"price\": 123.92\r\n    },\r\n    {\r\n        \"productId\": 21,\r\n        \"title\": \"Mouse\",\r\n        \"description\": \"TECKNET PRO Mouse Senza Fili, 2600DPI, Durata delle batterie di 24 Mesi, 2.4G\",\r\n        \"image\": \"https://i.ibb.co/H2PdkGv/mouse.jpg\",\r\n        \"price\": 17.24\r\n    },\r\n    {\r\n        \"productId\": 22,\r\n        \"title\": \"Playseat\",\r\n        \"description\": \"Playseat Alcantara - Nuovo modello\",\r\n        \"image\": \"https://i.ibb.co/1MHw0rt/Playseat.jpg\",\r\n        \"price\": 153.33\r\n    },\r\n    {\r\n        \"productId\": 23,\r\n        \"title\": \"Tasciera\",\r\n        \"description\": \"Perixx Periduo-606 Set tastiera ergonomica compatta wireless e mouse verticale, con poggiapolsi regolabile\",\r\n        \"image\": \"https://i.ibb.co/n7kjCPm/Tasciera.jpg\",\r\n        \"price\": 49.99\r\n    },\r\n    {\r\n        \"productId\": 24,\r\n        \"title\": \"Ustensile-da-cucina\",\r\n        \"description\": \"Zeller 25274 Porta-Utensili da Cucina, Bamboo, Beige, 0.1x9x33 cm, 7 unità\",\r\n        \"image\": \"https://i.ibb.co/s1KZQtt/Ustensile-da-cucina.jpg\",\r\n        \"price\": 22.19\r\n    }\r\n*/",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7001/products/insert-product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"products",
+								"insert-product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert many product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productListRequest\": [\r\n\r\n        {\r\n            \"title\": \"Scacchiera\",\r\n            \"description\": \"LE DUE TORRI Completo da torneo Scacchi+Scacchiera+Borsa\",\r\n            \"image\": \"https://i.ibb.co/Y2Y3Rpq/Scacchiera.jpg\",\r\n            \"price\": 19.26\r\n        },\r\n\r\n        {\r\n            \"title\": \"Cuffie\",\r\n            \"description\": \"Sennheiser HD 599 Cuffie Aperte sul Retro, Edizione Speciale, Nero\",\r\n            \"image\": \"https://i.ibb.co/pzGVTLv/Cuffie-0.jpg\",\r\n            \"price\": 25.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Headphone\",\r\n            \"description\": \"Headphone Cuffie Aperte sul Retro, Nero, Buona qualita\",\r\n            \"image\": \"https://i.ibb.co/P6Gw2Vy/headphones.png\",\r\n            \"price\": 55.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Ideco\",\r\n            \"description\": \"Atelier Ideco - Caché Grigio Pot Interno E Rosegold Calcestruzzo\",\r\n            \"image\": \"https://i.ibb.co/BNWwJFG/Ideco.jpg\",\r\n            \"price\": 15.45\r\n        },\r\n\r\n        {\r\n            \"title\": \"Maschera-1\",\r\n            \"description\": \"Dodheah Maschera per Dormire Seta Maschera Occhi per Dormire Morbida\",\r\n            \"image\": \"https://i.ibb.co/KV9WwHS/Maschera-1.jpg\",\r\n            \"price\": 23.22\r\n        },\r\n\r\n        {\r\n            \"title\": \"Maschera-2\",\r\n            \"description\": \"Maschera per Occhi per Dormire Più Veloce e Silenziosamente e Svegliarsi Riposati, con App iOS\",\r\n            \"image\": \"https://i.ibb.co/2NsQNy6/Maschera-2.jpg\",\r\n            \"price\": 112.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Mate book\",\r\n            \"description\": \"Ultrabook Laptop, Intel Core i5-10210U, RAM 8GB, SSD da 256GB, Windows 10 Home, Gray\",\r\n            \"image\": \"https://i.ibb.co/2FZb66J/Mate-Book-0.jpg\",\r\n            \"price\": 635.00\r\n        },\r\n\r\n        {\r\n            \"title\": \"Occhiali da Sole\",\r\n            \"description\": \"Occhiali da Sole Ultra Leggeri da Uomo Occhiali da Sole Rettangolari Polarizzati per Protezione UV dell'uomo\",\r\n            \"image\": \"https://i.ibb.co/kJqK4C2/Occhiali.jpg\",\r\n            \"price\": 69.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Photo camera 1\",\r\n            \"description\": \"Sennheiser HD 599 Cuffie Aperte sul Retro, Edizione Speciale, Nero\",\r\n            \"image\": \"https://i.ibb.co/k41k4rC/pexels-photo-90946.jpg\",\r\n            \"price\": 95.50\r\n        },\r\n\r\n        {\r\n            \"title\": \"Porta-candella\",\r\n            \"description\": \"Porta candela Linea Traforo Realizzato e dipinto a mano Le Ceramiche del Castello Made in Italy Dimensioni 14,5 x 11 cm\",\r\n            \"image\": \"https://i.ibb.co/pdCL4Yf/Porta-candella.jpg\",\r\n            \"price\": 25.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Samsung-tv\",\r\n            \"description\": \"Samsung TV QE55Q64TAUXZT Serie Q60T Modello Q64T QLED Smart TV 55\",\r\n            \"image\": \"https://i.ibb.co/v43KDqL/Samsung-tv.jpg\",\r\n            \"price\": 255.02\r\n        },\r\n\r\n        {\r\n            \"title\": \"Swan-Optic-22089\",\r\n            \"description\": \"Swan-Optic-22089\",\r\n            \"image\": \"https://i.ibb.co/KxhGpDJ/Swan-Optic-22089.jpg\",\r\n            \"price\": 25.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Tazze-1\",\r\n            \"description\": \"Bicchieri di rame Moscow Mule Include 4 bicchieri, 4 sottobicchieri, 4 cannucce, \",\r\n            \"image\": \"https://i.ibb.co/Z8N7xqn/Tazze-1.jpg\",\r\n            \"price\": 45.28\r\n        },\r\n\r\n        {\r\n            \"title\": \"Tazze-2\",\r\n            \"description\": \"Set 4 Tazze Rame Moscow Mule, 18 Oz Rame Tazza con 4 Sottobicchieri, 4 Cannucce\",\r\n            \"image\": \"https://i.ibb.co/GVJBFX1/tazze-2.jpg\",\r\n            \"price\": 52.59\r\n        },\r\n\r\n        {\r\n            \"title\": \"Telecamera\",\r\n            \"description\": \"Cam Telecamera per Auto 1080P FHD 3 pollici Schermo grandangolare 170 °\",\r\n            \"image\": \"https://i.ibb.co/WyQdcML/Telecamera.jpg\",\r\n            \"price\": 135.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Adattatore-da-usb\",\r\n            \"description\": \"Adattatore da USB C a 3,5 mm Adattatore di Ricarica e Audio Jack 2 in 1 USB\",\r\n            \"image\": \"https://i.ibb.co/L62Kb42/Adattatore-da-usb.jpg\",\r\n            \"price\": 11.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Adattatore-Jack\",\r\n            \"description\": \"Adattatore Jack per Cuffie per iPhone 12/11/X/SE, Adattatore Audio e Ricarica\",\r\n            \"image\": \"https://i.ibb.co/mtcvxFb/adattatore-jack.jpg\",\r\n            \"price\": 15.82\r\n        },\r\n\r\n        {\r\n            \"title\": \"Controller-xbox\",\r\n            \"description\": \"Microsoft Controller wireless per Xbox, Edizione speciale Daystrike Camo\",\r\n            \"image\": \"https://i.ibb.co/v3HGCz4/Controller-xbox.jpg\",\r\n            \"price\": 50.12\r\n        },\r\n\r\n        {\r\n            \"title\": \"Cuffie-ps5\",\r\n            \"description\": \"Cuffie Gaming per PS5 Xbox One, Multi-Platform Riduzione del Rumore Cuffie con Microfono Confortevole Stereo Bassi\",\r\n            \"image\": \"https://i.ibb.co/7GPbGFM/Cuffie-ps5.jpg\",\r\n            \"price\": 69.29\r\n        },\r\n\r\n        {\r\n            \"title\": \"Estrattore-di-succo\",\r\n            \"description\": \"Moulinex ZU420E Juice & Clean, Estrattore di Succo a Freddo, con Teconlogia Easy Clean\",\r\n            \"image\": \"https://i.ibb.co/1RjQYP4/Estrattore-di-succo.jpg\",\r\n            \"price\": 101.42\r\n        },\r\n\r\n        {\r\n            \"title\": \"Impastatrice\",\r\n            \"description\": \"Moulinex QA810D MasterChef Grande Impastatrice Planetaria, 1500 W, 6.7 Litri, 80\",\r\n            \"image\": \"https://i.ibb.co/0JkVYmy/Impastatrice.jpg\",\r\n            \"price\": 123.92\r\n        },\r\n\r\n        {\r\n            \"title\": \"Mouse\",\r\n            \"description\": \"TECKNET PRO Mouse Senza Fili, 2600DPI, Durata delle batterie di 24 Mesi, 2.4G\",\r\n            \"image\": \"https://i.ibb.co/H2PdkGv/mouse.jpg\",\r\n            \"price\": 17.24\r\n        },\r\n\r\n        {\r\n            \"title\": \"Playseat\",\r\n            \"description\": \"Playseat Alcantara - Nuovo modello\",\r\n            \"image\": \"https://i.ibb.co/1MHw0rt/Playseat.jpg\",\r\n            \"price\": 153.33\r\n        },\r\n\r\n        {\r\n            \"title\": \"Tasciera\",\r\n            \"description\": \"Perixx Periduo-606 Set tastiera ergonomica compatta wireless e mouse verticale, con poggiapolsi regolabile\",\r\n            \"image\": \"https://i.ibb.co/n7kjCPm/Tasciera.jpg\",\r\n            \"price\": 49.99\r\n        },\r\n\r\n        {\r\n            \"title\": \"Ustensile-da-cucina\",\r\n            \"description\": \"Zeller 25274 Porta-Utensili da Cucina, Bamboo, Beige, 0.1x9x33 cm, 7 unità\",\r\n            \"image\": \"https://i.ibb.co/s1KZQtt/Ustensile-da-cucina.jpg\",\r\n            \"price\": 22.19\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7001/products/insert-many-products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"products",
+								"insert-many-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh properties",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7001/actuator/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"actuator",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7001/products/get-all-products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"products",
+								"get-all-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one product by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7001/products/get-product/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"products",
+								"get-product",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all actuator endpoind",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7001/actuator/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"actuator",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Service",
+			"item": [
+				{
+					"name": "Insert Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerEmail\": \"pippo1@appmsa.com\",\r\n    \"productId\": 5,\r\n    \"quantity\": 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7002/orders/insert-order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7002",
+							"path": [
+								"orders",
+								"insert-order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one order by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7002/orders/get-order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7002",
+							"path": [
+								"orders",
+								"get-order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment service",
+			"item": [
+				{
+					"name": "Pay one order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": 1,\r\n    \"amount\": 200.50,\r\n    \"cartNumber\": 533398541239\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7003/payments/insert-payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7003",
+							"path": [
+								"payments",
+								"insert-payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Config server",
+			"item": [
+				{
+					"name": "Get Product-Service properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/product-service/default",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"product-service",
+								"default"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cloud gateway properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/cloud-gateway/default",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"cloud-gateway",
+								"default"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Gateway",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6002/product-service/products/get-all-products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6002",
+							"path": [
+								"product-service",
+								"products",
+								"get-all-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  All actuator endpoind",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6002/actuator/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6002",
+							"path": [
+								"actuator",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coud Gateway",
+			"item": [
+				{
+					"name": "[GATE] insert many product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productListRequest\": [\r\n\r\n        {\r\n            \"title\": \"Scacchiera\",\r\n            \"description\": \"LE DUE TORRI Completo da torneo Scacchi+Scacchiera+Borsa\",\r\n            \"image\": \"https://i.ibb.co/Y2Y3Rpq/Scacchiera.jpg\",\r\n            \"price\": 19.26\r\n        },\r\n\r\n        {\r\n            \"title\": \"Cuffie\",\r\n            \"description\": \"Sennheiser HD 599 Cuffie Aperte sul Retro, Edizione Speciale, Nero\",\r\n            \"image\": \"https://i.ibb.co/pzGVTLv/Cuffie-0.jpg\",\r\n            \"price\": 25.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Headphone\",\r\n            \"description\": \"Headphone Cuffie Aperte sul Retro, Nero, Buona qualita\",\r\n            \"image\": \"https://i.ibb.co/P6Gw2Vy/headphones.png\",\r\n            \"price\": 55.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Ideco\",\r\n            \"description\": \"Atelier Ideco - Caché Grigio Pot Interno E Rosegold Calcestruzzo\",\r\n            \"image\": \"https://i.ibb.co/BNWwJFG/Ideco.jpg\",\r\n            \"price\": 15.45\r\n        },\r\n\r\n        {\r\n            \"title\": \"Maschera-1\",\r\n            \"description\": \"Dodheah Maschera per Dormire Seta Maschera Occhi per Dormire Morbida\",\r\n            \"image\": \"https://i.ibb.co/KV9WwHS/Maschera-1.jpg\",\r\n            \"price\": 23.22\r\n        },\r\n\r\n        {\r\n            \"title\": \"Maschera-2\",\r\n            \"description\": \"Maschera per Occhi per Dormire Più Veloce e Silenziosamente e Svegliarsi Riposati, con App iOS\",\r\n            \"image\": \"https://i.ibb.co/2NsQNy6/Maschera-2.jpg\",\r\n            \"price\": 112.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Mate book\",\r\n            \"description\": \"Ultrabook Laptop, Intel Core i5-10210U, RAM 8GB, SSD da 256GB, Windows 10 Home, Gray\",\r\n            \"image\": \"https://i.ibb.co/2FZb66J/Mate-Book-0.jpg\",\r\n            \"price\": 635.00\r\n        },\r\n\r\n        {\r\n            \"title\": \"Occhiali da Sole\",\r\n            \"description\": \"Occhiali da Sole Ultra Leggeri da Uomo Occhiali da Sole Rettangolari Polarizzati per Protezione UV dell'uomo\",\r\n            \"image\": \"https://i.ibb.co/kJqK4C2/Occhiali.jpg\",\r\n            \"price\": 69.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Photo camera 1\",\r\n            \"description\": \"Sennheiser HD 599 Cuffie Aperte sul Retro, Edizione Speciale, Nero\",\r\n            \"image\": \"https://i.ibb.co/k41k4rC/pexels-photo-90946.jpg\",\r\n            \"price\": 95.50\r\n        },\r\n\r\n        {\r\n            \"title\": \"Porta-candella\",\r\n            \"description\": \"Porta candela Linea Traforo Realizzato e dipinto a mano Le Ceramiche del Castello Made in Italy Dimensioni 14,5 x 11 cm\",\r\n            \"image\": \"https://i.ibb.co/pdCL4Yf/Porta-candella.jpg\",\r\n            \"price\": 25.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Samsung-tv\",\r\n            \"description\": \"Samsung TV QE55Q64TAUXZT Serie Q60T Modello Q64T QLED Smart TV 55\",\r\n            \"image\": \"https://i.ibb.co/v43KDqL/Samsung-tv.jpg\",\r\n            \"price\": 255.02\r\n        },\r\n\r\n        {\r\n            \"title\": \"Swan-Optic-22089\",\r\n            \"description\": \"Swan-Optic-22089\",\r\n            \"image\": \"https://i.ibb.co/KxhGpDJ/Swan-Optic-22089.jpg\",\r\n            \"price\": 25.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Tazze-1\",\r\n            \"description\": \"Bicchieri di rame Moscow Mule Include 4 bicchieri, 4 sottobicchieri, 4 cannucce, \",\r\n            \"image\": \"https://i.ibb.co/Z8N7xqn/Tazze-1.jpg\",\r\n            \"price\": 45.28\r\n        },\r\n\r\n        {\r\n            \"title\": \"Tazze-2\",\r\n            \"description\": \"Set 4 Tazze Rame Moscow Mule, 18 Oz Rame Tazza con 4 Sottobicchieri, 4 Cannucce\",\r\n            \"image\": \"https://i.ibb.co/GVJBFX1/tazze-2.jpg\",\r\n            \"price\": 52.59\r\n        },\r\n\r\n        {\r\n            \"title\": \"Telecamera\",\r\n            \"description\": \"Cam Telecamera per Auto 1080P FHD 3 pollici Schermo grandangolare 170 °\",\r\n            \"image\": \"https://i.ibb.co/WyQdcML/Telecamera.jpg\",\r\n            \"price\": 135.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Adattatore-da-usb\",\r\n            \"description\": \"Adattatore da USB C a 3,5 mm Adattatore di Ricarica e Audio Jack 2 in 1 USB\",\r\n            \"image\": \"https://i.ibb.co/L62Kb42/Adattatore-da-usb.jpg\",\r\n            \"price\": 11.52\r\n        },\r\n\r\n        {\r\n            \"title\": \"Adattatore-Jack\",\r\n            \"description\": \"Adattatore Jack per Cuffie per iPhone 12/11/X/SE, Adattatore Audio e Ricarica\",\r\n            \"image\": \"https://i.ibb.co/mtcvxFb/adattatore-jack.jpg\",\r\n            \"price\": 15.82\r\n        },\r\n\r\n        {\r\n            \"title\": \"Controller-xbox\",\r\n            \"description\": \"Microsoft Controller wireless per Xbox, Edizione speciale Daystrike Camo\",\r\n            \"image\": \"https://i.ibb.co/v3HGCz4/Controller-xbox.jpg\",\r\n            \"price\": 50.12\r\n        },\r\n\r\n        {\r\n            \"title\": \"Cuffie-ps5\",\r\n            \"description\": \"Cuffie Gaming per PS5 Xbox One, Multi-Platform Riduzione del Rumore Cuffie con Microfono Confortevole Stereo Bassi\",\r\n            \"image\": \"https://i.ibb.co/7GPbGFM/Cuffie-ps5.jpg\",\r\n            \"price\": 69.29\r\n        },\r\n\r\n        {\r\n            \"title\": \"Estrattore-di-succo\",\r\n            \"description\": \"Moulinex ZU420E Juice & Clean, Estrattore di Succo a Freddo, con Teconlogia Easy Clean\",\r\n            \"image\": \"https://i.ibb.co/1RjQYP4/Estrattore-di-succo.jpg\",\r\n            \"price\": 101.42\r\n        },\r\n\r\n        {\r\n            \"title\": \"Impastatrice\",\r\n            \"description\": \"Moulinex QA810D MasterChef Grande Impastatrice Planetaria, 1500 W, 6.7 Litri, 80\",\r\n            \"image\": \"https://i.ibb.co/0JkVYmy/Impastatrice.jpg\",\r\n            \"price\": 123.92\r\n        },\r\n\r\n        {\r\n            \"title\": \"Mouse\",\r\n            \"description\": \"TECKNET PRO Mouse Senza Fili, 2600DPI, Durata delle batterie di 24 Mesi, 2.4G\",\r\n            \"image\": \"https://i.ibb.co/H2PdkGv/mouse.jpg\",\r\n            \"price\": 17.24\r\n        },\r\n\r\n        {\r\n            \"title\": \"Playseat\",\r\n            \"description\": \"Playseat Alcantara - Nuovo modello\",\r\n            \"image\": \"https://i.ibb.co/1MHw0rt/Playseat.jpg\",\r\n            \"price\": 153.33\r\n        },\r\n\r\n        {\r\n            \"title\": \"Tasciera\",\r\n            \"description\": \"Perixx Periduo-606 Set tastiera ergonomica compatta wireless e mouse verticale, con poggiapolsi regolabile\",\r\n            \"image\": \"https://i.ibb.co/n7kjCPm/Tasciera.jpg\",\r\n            \"price\": 49.99\r\n        },\r\n\r\n        {\r\n            \"title\": \"Ustensile-da-cucina\",\r\n            \"description\": \"Zeller 25274 Porta-Utensili da Cucina, Bamboo, Beige, 0.1x9x33 cm, 7 unità\",\r\n            \"image\": \"https://i.ibb.co/s1KZQtt/Ustensile-da-cucina.jpg\",\r\n            \"price\": 22.19\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6003/products/insert-many-products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6003",
+							"path": [
+								"products",
+								"insert-many-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GATE] Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6003/products/get-all-products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6003",
+							"path": [
+								"products",
+								"get-all-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GATE] Get one product by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6003/products/get-product/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6003",
+							"path": [
+								"products",
+								"get-product",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GATE] insert one order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerEmail\": \"pippo11@appmsa.com\",\r\n    \"productId\": 1,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6003/orders/insert-order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6003",
+							"path": [
+								"orders",
+								"insert-order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GATE] Pay one order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": 2,\r\n    \"amount\": 19.26,\r\n    \"cartNumber\": 533398541239\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6003/payments/insert-payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6003",
+							"path": [
+								"payments",
+								"insert-payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  All actuator endpoind",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6003/actuator/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6003",
+							"path": [
+								"actuator",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
